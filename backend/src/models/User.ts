@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema,Model } from 'mongoose';
 
 const userSchema=new mongoose.Schema({
     name:String,
@@ -7,4 +7,17 @@ const userSchema=new mongoose.Schema({
     provider:{type:String,default:'local'}
 });
 
-export default mongoose.model('User',userSchema);
+const User=mongoose.model('User',userSchema);
+
+
+const tokenSchema=new mongoose.Schema({
+    token:{type:Number,required:true},
+    email:{type:String,required:true},
+    expires:{type:Date,required:true}
+})
+
+tokenSchema.index({expires:1},{expireAfterSeconds:0});
+
+const Token=mongoose.model('Token',tokenSchema);
+
+export{User,Token}
